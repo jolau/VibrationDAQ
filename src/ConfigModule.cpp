@@ -176,4 +176,20 @@ namespace vibration_daq {
     bool ConfigModule::readStorageDirectory(std::string &storageDirectory) const {
         return convertNode(configNode["storage_directory"], storageDirectory);
     }
+
+    bool ConfigModule::readExternalTrigger(bool &externalTriggerActivated, int &externalTriggerPin) const {
+        if (!convertNode(configNode["external_trigger"], externalTriggerActivated)) {
+            LOG_S(WARNING) << "could not read external_trigger from config";
+            return false;
+        }
+
+        if (externalTriggerActivated) {
+            if (!convertNode(configNode["external_trigger_pin"], externalTriggerPin)) {
+                LOG_S(WARNING) << "could not read external_trigger_pin from config";
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

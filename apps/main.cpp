@@ -31,7 +31,8 @@ StorageModule storageModule;
 //    return YAML::convert<T>::decode(node, rhs);
 //}
 
-bool setupVibrationSensorModules();
+bool setupVibrationSensorModules(const bool &externalTriggerActivated);
+
 system_clock::time_point triggerVibrationSensors(const bool &externalTrigger);
 
 int main(int argc, char *argv[]) {
@@ -39,18 +40,25 @@ int main(int argc, char *argv[]) {
     loguru::g_preamble_thread = false;
     loguru::init(argc, argv);
 
-    gpioTrigger = gpio_new();
-    if (gpio_open(gpioTrigger, "/dev/gpiochip0", 4, GPIO_DIR_OUT_LOW) < 0) {
-        LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(gpioTrigger));
-        return EXIT_FAILURE;
-    }
-
     if (!configModule.setup("/home/pi/Projects/VibrationDAQ/config.yaml")) {
         LOG_S(ERROR) << "Could not setup ConfigModule.";
         return EXIT_FAILURE;
     }
 
-    if (!setupVibrationSensorModules()) {
+    bool externalTriggerActivated = false;
+    int externalTriggerPin = -1;
+    if (!configModule.readExternalTrigger(externalTriggerActivated, externalTriggerPin)) {
+        LOG_S(ERROR) << "Could not retrieve externalTrigger config.";
+        return EXIT_FAILURE;
+    }
+    if (externalTriggerActivated) {
+        gpioTrigger = gpio_new();
+        if (gpio_open(gpioTrigger, "/dev/gpiochip0", externalTriggerPin, GPIO_DIR_OUT_LOW) < 0) {
+            LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(gpioTrigger));
+            return EXIT_FAILURE;
+        }
+    }
+    if (!setupVibrationSensorModules(externalTriggerActivated)) {
         return EXIT_FAILURE;
     }
 
@@ -71,7 +79,7 @@ int main(int argc, char *argv[]) {
 
     // run indefinitely if recordingsCount == 0
     for (int i = 0; i < recordingsCount || recordingsCount == 0; ++i) {
-        system_clock::time_point triggerTime = triggerVibrationSensors(true);
+        system_clock::time_point triggerTime = triggerVibrationSensors(externalTriggerActivated);
 
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             auto vibrationData = vibrationSensorModule.retrieveVibrationData();
@@ -163,6 +171,7 @@ system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
     } else {
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             // start recording
+            cout << "triggered" << endl;
             vibrationSensorModule.triggerRecording();
         }
         triggerTime = system_clock::now();
@@ -171,7 +180,7 @@ system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
     return triggerTime;
 }
 
-bool setupVibrationSensorModules() {
+bool setupVibrationSensorModules(const bool &externalTriggerActivated) {
     std::vector<VibrationSensorConfig> vibrationSensorConfigs;
     if (!configModule.readVibrationSensors(vibrationSensorConfigs)) {
         LOG_S(ERROR) << "Could not retrieve vibration sensors from config.";
@@ -180,13 +189,16 @@ bool setupVibrationSensorModules() {
 
     for (const auto &vibrationSensorConfig : vibrationSensorConfigs) {
         VibrationSensorModule vibrationSensorModule(vibrationSensorConfig.name);
-        if (!vibrationSensorModule.setup(vibrationSensorConfig.resetPin, vibrationSensorConfig.busyPin, vibrationSensorConfig.spiPath,
+        if (!vibrationSensorModule.setup(vibrationSensorConfig.resetPin, vibrationSensorConfig.busyPin,
+                                         vibrationSensorConfig.spiPath,
                                          SPI_SPEED)) {
             LOG_S(ERROR) << "Could not setup vibration sensor: " << vibrationSensorConfig.name;
             return false;
         }
 
-        vibrationSensorModule.activateExternalTrigger();
+        if (externalTriggerActivated) {
+            vibrationSensorModule.activateExternalTrigger();
+        }
 
         switch (vibrationSensorConfig.recordingMode) {
             case RecordingMode::MFFT:

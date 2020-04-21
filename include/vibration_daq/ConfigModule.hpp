@@ -26,5 +26,6 @@ namespace vibration_daq {
         bool readVibrationSensors(std::vector<VibrationSensorConfig> &vibrationSensors);
         bool readRecordingsCount(int &recordingsCount);
         bool readStorageDirectory(std::string &storageDirectory) const;
+        bool readExternalTrigger(bool &externalTriggerActivated, int &externalTriggerPin) const;
     };
 }

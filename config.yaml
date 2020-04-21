@@ -1,5 +1,7 @@
 storage_directory: "/home/pi/Documents/"
 recordings_count: 2
+external_trigger: true
+external_trigger_pin: 4
 sensors:
   - name: sensor1
     busy_pin: 22
@@ -7,7 +9,7 @@ sensors:
     spi_path: "/dev/spidev0.0"
     recording_mode: MTC
     MFFT_config: &mfftConfig
-      decimation_factor: FACTOR_64
+      decimation_factor: FACTOR_1
       fir_filter: LOW_PASS_1kHz
       custom_filter_taps: [6, 21, 53, 107, 193, 316, 480, 686, 930, 1203, 1490, 1774, 2034, 2251, 2407, 2489, 2489, 2407, 2251, 2034, 1774, 1490, 1203, 930, 686, 480, 316, 193, 107, 53, 21, 6]
       spectral_avg_count: 1

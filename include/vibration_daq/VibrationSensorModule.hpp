@@ -8,10 +8,10 @@
 #include <spi.h>
 #include <vector>
 #include <functional>
-#include <vibration_daq/utils/HexUtils.hpp>
 #include "ADcmXL3021Library.hpp"
+#include "utils/HexUtils.hpp"
 #include "entities/VibrationData.hpp"
-#include "vibration_daq/entities/RecordingMode.hpp"
+#include "entities/RecordingMode.hpp"
 #include "entities/RecordingConfig.hpp"
 #include "entities/FIRFilter.hpp"
 #include "entities/DecimationFactor.hpp"
