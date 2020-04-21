@@ -40,7 +40,13 @@ int main(int argc, char *argv[]) {
     loguru::g_preamble_thread = false;
     loguru::init(argc, argv);
 
-    if (!configModule.setup("/home/pi/Projects/VibrationDAQ/config.yaml")) {
+    std::string configFilePath = "";
+    if(argc > 1) {
+        configFilePath = argv[1];
+    }
+    LOG_S(INFO) << "Config file path: " << configFilePath;
+
+    if (!configModule.setup(configFilePath)) {
         LOG_S(ERROR) << "Could not setup ConfigModule.";
         return EXIT_FAILURE;
     }
@@ -58,6 +64,7 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
     }
+
     if (!setupVibrationSensorModules(externalTriggerActivated)) {
         return EXIT_FAILURE;
     }

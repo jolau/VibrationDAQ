@@ -1,13 +1,13 @@
 storage_directory: "/home/pi/Documents/"
 recordings_count: 2
-external_trigger: true
+external_trigger: false
 external_trigger_pin: 4
 sensors:
   - name: sensor1
     busy_pin: 22
     reset_pin: 27
     spi_path: "/dev/spidev0.0"
-    recording_mode: MTC
+    recording_mode: MFFT
     MFFT_config: &mfftConfig
       decimation_factor: FACTOR_1
       fir_filter: LOW_PASS_1kHz
