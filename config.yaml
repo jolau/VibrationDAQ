@@ -1,0 +1,24 @@
+storage_directory: "/home/pi/Documents/"
+recordings_count: 2
+sensors:
+  - name: sensor1
+    busy_pin: 22
+    reset_pin: 27
+    spi_path: "/dev/spidev0.0"
+    recording_mode: MTC
+    MFFT_config: &mfftConfig
+      decimation_factor: FACTOR_64
+      fir_filter: LOW_PASS_1kHz
+      custom_filter_taps: [6, 21, 53, 107, 193, 316, 480, 686, 930, 1203, 1490, 1774, 2034, 2251, 2407, 2489, 2489, 2407, 2251, 2034, 1774, 1490, 1203, 930, 686, 480, 316, 193, 107, 53, 21, 6]
+      spectral_avg_count: 1
+      window_setting: HANNING
+    MTC_config:
+        decimation_factor: FACTOR_2
+        fir_filter: NO_FILTER
+        custom_filter_taps: [6, 21, 53, 107, 193, 316, 480, 686, 930, 1203, 1490, 1774, 2034, 2251, 2407, 2489, 2489, 2407, 2251, 2034, 1774, 1490, 1203, 930, 686, 480, 316, 193, 107, 53, 21, 6]
+#  - name: sensor2
+#    busy_pin: 23
+#    reset_pin: 26
+#    spi_path: "/dev/spidev1.0"
+#    recording_mode: MFFT
+#    MFFT_config: *mfftConfig

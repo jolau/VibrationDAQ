@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="Raspberry Pi Zero (b6750e65-ad2c-488a-b3b6-e9ce6e187c30)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi-4" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberry-pi-zero" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-raspberrypi-4" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="RaspberryPi 3B (0397ad9a-7cc0-49c9-8db2-e1531a23d61b)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="RaspberryPi 4 (d7228e13-7819-45d8-a5ed-0c42d3cfabb1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi-4" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberry-pi-zero" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-raspberrypi-4" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="RaspberryPi 4 Cable (ba0fefcd-cb60-4bb4-b560-ce112ad51dc9)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi-4-cable" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="RaspberryPi4@Hegi (050f7de4-883c-4644-b0e1-be32614c5442)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi4@hegi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
