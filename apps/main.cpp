@@ -43,6 +43,8 @@ int main(int argc, char *argv[]) {
     std::string configFilePath = "";
     if(argc > 1) {
         configFilePath = argv[1];
+    } else {
+        LOG_S(ERROR) << "No config file as program argument specified!";
     }
     LOG_S(INFO) << "Config file path: " << configFilePath;
 
