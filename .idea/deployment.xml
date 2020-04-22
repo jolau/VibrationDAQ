@@ -46,7 +46,7 @@
       <paths name="RaspberryPi4@Hegi (050f7de4-883c-4644-b0e1-be32614c5442)">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/pi/Projects/VibrationDAQ2" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi4@hegi" />
@@ -54,14 +54,13 @@
           </excludedPaths>
         </serverdata>
       </paths>
-      <paths name="RaspberryPiZero@Hegi (7dd0ff09-8896-4b9f-b8f8-da8952c5b298)">
+      <paths name="RaspberryPiZeroHegi (e8b34f44-7d3f-4e6d-b313-1b74b85f8d50)">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/tmp/tmp.k9bSMlwRAb" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi4@hegi" />
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypizero@hegi" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypizerohegi" />
           </excludedPaths>
         </serverdata>
       </paths>

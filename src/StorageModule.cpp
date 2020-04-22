@@ -10,7 +10,7 @@ std::string
 vibration_daq::StorageModule::getLocalTimestampString(const std::chrono::system_clock::time_point &timePoint) {
     auto localTimePoint = date::make_zoned(date::current_zone(),
                                            date::floor<std::chrono::milliseconds>(timePoint));
-    return date::format("%FT%T", localTimePoint);
+    return date::format("%FT%H_%M_%S", localTimePoint);
 }
 
 bool vibration_daq::StorageModule::setup(const fs::path& storageDirectoryPath) {
