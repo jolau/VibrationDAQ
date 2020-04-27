@@ -46,7 +46,7 @@
       <paths name="RaspberryPi4@Hegi (050f7de4-883c-4644-b0e1-be32614c5442)">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/pi/Projects/VibrationDAQ2" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi4@hegi" />

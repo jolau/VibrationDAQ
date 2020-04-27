@@ -1,7 +1,7 @@
 storage_directory: "/home/pi/Documents/"
 recordings_count: 2
-external_trigger: false
-external_trigger_pin: 4
+external_trigger: true
+external_trigger_pin: 17
 sensors:
   - name: sensor1
     busy_pin: 22
@@ -18,9 +18,9 @@ sensors:
         decimation_factor: FACTOR_2
         fir_filter: NO_FILTER
         custom_filter_taps: [6, 21, 53, 107, 193, 316, 480, 686, 930, 1203, 1490, 1774, 2034, 2251, 2407, 2489, 2489, 2407, 2251, 2034, 1774, 1490, 1203, 930, 686, 480, 316, 193, 107, 53, 21, 6]
-#  - name: sensor2
-#    busy_pin: 23
-#    reset_pin: 26
-#    spi_path: "/dev/spidev1.0"
-#    recording_mode: MFFT
-#    MFFT_config: *mfftConfig
+  - name: sensor2
+    busy_pin: 13
+    reset_pin: 26
+    spi_path: "/dev/spidev0.1"
+    recording_mode: MFFT
+    MFFT_config: *mfftConfig

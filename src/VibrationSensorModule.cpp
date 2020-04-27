@@ -47,7 +47,7 @@ namespace vibration_daq {
             if (notBusy) {
                 return transfer(sendBuf);
             } else {
-                DLOG_S(INFO) << "Sensor is busy.";
+                DLOG_S(INFO) << name << " is busy.";
                 sleep_for(10ms);
             }
         } while (!notBusy);
@@ -57,7 +57,7 @@ namespace vibration_daq {
 
     uint16_t VibrationSensorModule::read(vibration_daq::SpiCommand cmd) const {
         if (!cmd.readFlag) {
-            LOG_S(ERROR) << "Cannot read SpiCommand (PageID: " << cmd.pageId << ", Address: " << cmd.address
+            LOG_S(ERROR) << name << ": Cannot read SpiCommand (PageID: " << cmd.pageId << ", Address: " << cmd.address
                          << "). Read flag not set.";
             return 0;
         }
@@ -73,7 +73,7 @@ namespace vibration_daq {
 
     void VibrationSensorModule::write(SpiCommand cmd, uint16_t value) const {
         if (!cmd.writeFlag) {
-            LOG_S(ERROR) << "Cannot write SpiCommand (PageID: " << cmd.pageId << ", Address: " << cmd.address
+            LOG_S(ERROR) << name << ": Cannot write SpiCommand (PageID: " << cmd.pageId << ", Address: " << cmd.address
                          << "). Write flag not set.";
             return;
         }

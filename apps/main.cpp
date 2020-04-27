@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     } else {
         LOG_S(ERROR) << "No config file as program argument specified!";
     }
-    LOG_S(INFO) << "Config file path: " << configFilePath;
+    LOG_S(INFO) << "Loading from config file path: " << configFilePath;
 
     if (!configModule.setup(configFilePath)) {
         LOG_S(ERROR) << "Could not setup ConfigModule.";
@@ -219,6 +219,7 @@ bool setupVibrationSensorModules(const bool &externalTriggerActivated) {
         }
 
         vibrationSensorModules.push_back(vibrationSensorModule);
+        LOG_S(INFO) << vibrationSensorModule.getName() << " setup done";
     }
 
     return true;
