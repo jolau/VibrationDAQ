@@ -1,6 +1,16 @@
 # VibrationDAQ
 Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor
 
+## Installation
+1. Install yaml-cpp (as described below)
+2. Clone this repo
+3.`cd VibrationDAQ`
+4. `mkdir build & cd build`
+5. `cmake ..`
+6. `sudo make install`
+
+You can use it now with `vibration_daq_app [full path to config.yaml]`.
+
 ## Dependencies
 ### yaml-cpp (Installation)
 https://github.com/jbeder/yaml-cpp
@@ -41,7 +51,7 @@ sensors:
   - name: sensor2
     busy_pin: 23
     reset_pin: 26
-    spi_path: "/dev/spidev1.0"
+    spi_path: "/dev/spidev0.1"
     recording_mode: MFFT
     MFFT_config: *mfftConfig #copy config from sensor1 above
 ```
