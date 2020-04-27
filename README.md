@@ -3,8 +3,8 @@ Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor
 
 ## Installation
 1. Install yaml-cpp (as described below)
-2. Clone this repo
-3.`cd VibrationDAQ`
+2. Clone this repo.
+3. `cd VibrationDAQ`
 4. `mkdir build & cd build`
 5. `cmake ..`
 6. `sudo make install`
