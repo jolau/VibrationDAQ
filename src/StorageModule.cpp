@@ -30,9 +30,9 @@ bool vibration_daq::StorageModule::storeVibrationData(const vibration_daq::Vibra
     dataFilePath << "vibration_data_";
     dataFilePath << Enum::toString(vibrationData.recordingMode);
     dataFilePath << "_";
-    dataFilePath << sensorName;
-    dataFilePath << "_";
     dataFilePath << getLocalTimestampString(measurementTimestamp);
+    dataFilePath << "_";
+    dataFilePath << sensorName;
     dataFilePath << ".csv";
 
     auto dataFile = std::fstream(dataFilePath.str(), std::ios::out);
