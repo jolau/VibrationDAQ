@@ -209,6 +209,9 @@ bool setupVibrationSensorModules(const bool &externalTriggerActivated) {
             vibrationSensorModule.activateExternalTrigger();
         }
 
+//        vibrationSensorModule.triggerAutonull();
+//        vibrationSensorModule.restoreFactorySettings();
+
         switch (vibrationSensorConfig.recordingMode) {
             case RecordingMode::MFFT:
                 vibrationSensorModule.activateMode(vibrationSensorConfig.mfftConfig);

@@ -50,12 +50,14 @@ namespace vibration_daq {
         void close();
 
         const std::string &getName() const;
-        void activateExternalTrigger() const;
 
+        void activateExternalTrigger() const;
+        void triggerAutonull() const;
         void triggerRecording() const;
+        void restoreFactorySettings();
+
         VibrationData retrieveVibrationData() const;
         bool activateMode(const MFFTConfig &mfftConfig);
         bool activateMode(const MTCConfig &mtcConfig);
-
     };
 }

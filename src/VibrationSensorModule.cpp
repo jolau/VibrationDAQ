@@ -176,6 +176,10 @@ namespace vibration_daq {
                 recordStepSize = 110000.f / static_cast<float>(decimationFactor) / static_cast<float>(samplesCount);
                 convertVibrationValue = {
                         [numberOfFFTAvg](int16_t valueRaw) {
+                            // handle special case according to https://ez.analog.com/mems/f/q-a/162759/adcmxl3021-fft-conversion/372600#372600
+                            if(valueRaw == 0) {
+                                return 0.0;
+                            }
                             return std::pow(2, static_cast<float>(valueRaw) / 2048) / numberOfFFTAvg * 0.9535;
                         }
                 };
@@ -295,6 +299,13 @@ namespace vibration_daq {
         write(spi_commands::MISC_CTRL, 0x1000);
     }
 
+    void VibrationSensorModule::triggerAutonull() const {
+        write(spi_commands::GLOB_CMD, 0x0001);
+        write(spi_commands::GLOB_CMD, 0x0040);
+    }
 
+    void VibrationSensorModule::restoreFactorySettings() {
+        write(spi_commands::GLOB_CMD, 0x0008);
+    }
 
 }
