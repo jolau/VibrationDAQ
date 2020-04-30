@@ -26,13 +26,7 @@ std::vector<VibrationSensorModule> vibrationSensorModules;
 ConfigModule configModule;
 StorageModule storageModule;
 
-//template<typename T>
-//bool convertNode(const YAML::Node &node, T &rhs) {
-//    return YAML::convert<T>::decode(node, rhs);
-//}
-
 bool setupVibrationSensorModules(const bool &externalTriggerActivated);
-
 system_clock::time_point triggerVibrationSensors(const bool &externalTrigger);
 
 int main(int argc, char *argv[]) {
@@ -104,62 +98,6 @@ int main(int argc, char *argv[]) {
     }
 
     return EXIT_SUCCESS;
-
-// TODO: to be deleted
-    //    YAML::Node config = YAML::LoadFile("/home/pi/Projects/VibrationDAQ/config.yaml");
-//
-//    auto sensors = config["sensors0"];
-//    cout << sensors.IsMap() << endl;
-
-    /*auto mfftNode = config["MFFT"];
-    if (mfftNode) {
-        std::cout << "exists: " << convertNode(mfftNode["custom_filter_taps"], spectralAvgCount) << "\n";
-        std::cout << "value: " << spectralAvgCount[0] << std::endl;
-    }
-
-     const int PIN_BUSY = 22;
-     const int PIN_RESET = 27;
-     const std::string SPI_PATH = "/dev/spidev0.0";
-
-     vibrationSensorModule.setup(PIN_RESET, PIN_BUSY, 14000000);
-
- //    cout << "change recording mode worked: " << vibrationSensorModule.writeRecordingControl(RecordingMode::MTC, WindowSetting::RECTANGULAR)
- //         << std::endl;
-
- //    MFFTConfig mfftConfig;
- //    mfftConfig.spectralAvgCount = 1;
- //    mfftConfig.firFilter = FIRFilter::NO_FILTER;
- //    mfftConfig.decimationFactor = DecimationFactor::FACTOR_1;
- //    mfftConfig.windowSetting = WindowSetting::HANNING;
- //    vibrationSensorModule.activateMode(mfftConfig);
-
- //    vibrationSensorModule.activateModeMTC(DecimationFactor::FACTOR_1, FIRFilter::NO_FILTER);
-
-     // start recording
-     vibrationSensorModule.triggerRecording();
-
-     auto vibrationData = vibrationSensorModule.retrieveVibrationData();
-
-     auto startTime = std::chrono::high_resolution_clock::now();
-     auto dataFile = std::fstream("/home/pi/Documents/vibrationData.csv", std::ios::out | std::ios::binary);
-
-     dataFile << "x-Axis,y-Axis,z-Axis" << std::endl;
-     for (int i = 0; i < vibrationData.xAxis.size(); ++i) {
-         dataFile << vibrationData.xAxis[i] << "," << vibrationData.yAxis[i] << "," << vibrationData.zAxis[i]
-                  << std::endl;
-     }
-
- //    dataFile.write((char*)&vibrationData.xAxis[0], vibrationData.xAxis.size() * sizeof(float));
-
-     dataFile.close();
-     auto endTime = std::chrono::high_resolution_clock::now();
-
-     cout << "time to save file: "
-          << std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() << "ms" << std::endl;
-
-     vibrationSensorModule.close();
-
-     return 0;*/
 }
 
 system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
