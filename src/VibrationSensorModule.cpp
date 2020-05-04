@@ -300,7 +300,9 @@ namespace vibration_daq {
     }
 
     void VibrationSensorModule::triggerAutonull() const {
+        // autonull
         write(spi_commands::GLOB_CMD, 0x0001);
+        // save to flash
         write(spi_commands::GLOB_CMD, 0x0040);
     }
 
