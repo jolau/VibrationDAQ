@@ -16,8 +16,13 @@ namespace vibration_daq {
         fs::path storageDirectory;
 
         static std::string getLocalTimestampString(const std::chrono::system_clock::time_point &timePoint);
+
+        static std::string getTimestampString(const std::chrono::system_clock::time_point &timePoint);
+
     public:
-        bool setup(const fs::path& storageDirectoryPath);
-        bool storeVibrationData(const VibrationData &vibrationData, const std::string &sensorName, const std::chrono::system_clock::time_point &measurementTimestamp) const;
+        bool setup(const fs::path &storageDirectoryPath);
+
+        bool storeVibrationData(const VibrationData &vibrationData, const std::string &sensorName,
+                                const std::chrono::system_clock::time_point &measurementTimestamp) const;
     };
 }
