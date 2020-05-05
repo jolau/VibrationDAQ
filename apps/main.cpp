@@ -13,6 +13,7 @@
 #include "thread"
 #include "yaml-cpp/yaml.h"
 #include "date/date.h"
+#include "pwm.h"
 
 using namespace vibration_daq;
 using std::cout;
@@ -22,6 +23,8 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 static const int SPI_SPEED = 14000000;
 gpio_t *gpioTrigger;
+pwm_t *statusLed;
+
 std::vector<VibrationSensorModule> vibrationSensorModules;
 ConfigModule configModule;
 StorageModule storageModule;
@@ -61,6 +64,35 @@ int main(int argc, char *argv[]) {
         }
     }
 
+//    statusLed = gpio_new();
+//    if (gpio_open(statusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_HIGH) < 0) {
+//        LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(statusLed));
+//        return EXIT_FAILURE;
+//    }
+
+    statusLed = pwm_new();
+    if (pwm_open(statusLed, 0, 0) < 0) {
+        fprintf(stderr, "pwm_open(): %s\n", pwm_errmsg(statusLed));
+        exit(1);
+    }
+
+    /* Set frequency to 1 kHz */
+    if (pwm_set_frequency(statusLed, 10) < 0) {
+        fprintf(stderr, "pwm_set_frequency(): %s\n", pwm_errmsg(statusLed));
+        exit(1);
+    }
+
+    /* Change duty cycle to 50% */
+    if (pwm_set_duty_cycle(statusLed, 0.50) < 0) {
+        fprintf(stderr, "pwm_set_duty_cycle(): %s\n", pwm_errmsg(statusLed));
+        exit(1);
+    }
+
+    if (pwm_enable(statusLed) < 0) {
+        fprintf(stderr, "pwm_enable(): %s\n", pwm_errmsg(statusLed));
+        exit(1);
+    }
+
     if (!setupVibrationSensorModules(externalTriggerActivated)) {
         return EXIT_FAILURE;
     }
@@ -96,6 +128,16 @@ int main(int argc, char *argv[]) {
     for (auto &vibrationSensorModule : vibrationSensorModules) {
         vibrationSensorModule.close();
     }
+
+    if (pwm_disable(statusLed) < 0) {
+        fprintf(stderr, "pwm_enable(): %s\n", pwm_errmsg(statusLed));
+        exit(1);
+    }
+
+    // TODO: close trigger pin
+
+    pwm_close(statusLed);
+    pwm_free(statusLed);
 
     return EXIT_SUCCESS;
 }
