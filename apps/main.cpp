@@ -23,7 +23,7 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 static const int SPI_SPEED = 14000000;
 gpio_t *gpioTrigger;
-gpio_t *statusLed;
+gpio_t *gpioStatusLed;
 
 std::vector<VibrationSensorModule> vibrationSensorModules;
 ConfigModule configModule;
@@ -72,9 +72,9 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     if (statusLedActivated) {
-        statusLed = gpio_new();
-        if (gpio_open(statusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_LOW) < 0) {
-            LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(statusLed));
+        gpioStatusLed = gpio_new();
+        if (gpio_open(gpioStatusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_LOW) < 0) {
+            LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(gpioStatusLed));
             return EXIT_FAILURE;
         }
     }
@@ -99,8 +99,8 @@ int main(int argc, char *argv[]) {
         recordingsCount = 1;
     }
 
-    if (statusLedActivated && gpio_write(statusLed, true) < 0) {
-        fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+    if (statusLedActivated && gpio_write(gpioStatusLed, true) < 0) {
+        fprintf(stderr, "gpio_write(): %s", gpio_errmsg(gpioStatusLed));
         exit(1);
     }
 
@@ -111,16 +111,16 @@ int main(int argc, char *argv[]) {
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             auto vibrationData = vibrationSensorModule.retrieveVibrationData();
 
-            if (statusLedActivated && gpio_write(statusLed, false) < 0) {
-                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+            if (statusLedActivated && gpio_write(gpioStatusLed, false) < 0) {
+                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(gpioStatusLed));
                 exit(1);
             }
 
             bool storedVibrationData = storageModule.storeVibrationData(vibrationData, vibrationSensorModule.getName(),
                                                                         triggerTime);
 
-            if (statusLedActivated && gpio_write(statusLed, true) < 0) {
-                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+            if (statusLedActivated && gpio_write(gpioStatusLed, true) < 0) {
+                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(gpioStatusLed));
                 exit(1);
             }
 
@@ -140,13 +140,13 @@ int main(int argc, char *argv[]) {
     }
 
     if (statusLedActivated) {
-        if (gpio_write(statusLed, false) < 0) {
-            fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+        if (gpio_write(gpioStatusLed, false) < 0) {
+            fprintf(stderr, "gpio_write(): %s", gpio_errmsg(gpioStatusLed));
             exit(1);
         }
 
-        gpio_close(statusLed);
-        gpio_free(statusLed);
+        gpio_close(gpioStatusLed);
+        gpio_free(gpioStatusLed);
     }
 
     return EXIT_SUCCESS;
