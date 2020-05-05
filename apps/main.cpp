@@ -23,13 +23,14 @@ using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 static const int SPI_SPEED = 14000000;
 gpio_t *gpioTrigger;
-pwm_t *statusLed;
+gpio_t *statusLed;
 
 std::vector<VibrationSensorModule> vibrationSensorModules;
 ConfigModule configModule;
 StorageModule storageModule;
 
 bool setupVibrationSensorModules(const bool &externalTriggerActivated);
+
 system_clock::time_point triggerVibrationSensors(const bool &externalTrigger);
 
 int main(int argc, char *argv[]) {
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]) {
     loguru::init(argc, argv);
 
     std::string configFilePath = "";
-    if(argc > 1) {
+    if (argc > 1) {
         configFilePath = argv[1];
     } else {
         LOG_S(ERROR) << "No config file as program argument specified!";
@@ -64,34 +65,20 @@ int main(int argc, char *argv[]) {
         }
     }
 
-//    statusLed = gpio_new();
-//    if (gpio_open(statusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_HIGH) < 0) {
-//        LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(statusLed));
-//        return EXIT_FAILURE;
-//    }
-
-    statusLed = pwm_new();
-    if (pwm_open(statusLed, 0, 0) < 0) {
-        fprintf(stderr, "pwm_open(): %s\n", pwm_errmsg(statusLed));
-        exit(1);
+    bool statusLedActivated = false;
+    int statusLedPin = -1;
+    if (!configModule.readStatusLed(statusLedActivated, statusLedPin)) {
+        LOG_S(ERROR) << "Could not retrieve externalTrigger config.";
+        return EXIT_FAILURE;
+    }
+    if (statusLedActivated) {
+        statusLed = gpio_new();
+        if (gpio_open(statusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_LOW) < 0) {
+            LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(statusLed));
+            return EXIT_FAILURE;
+        }
     }
 
-    /* Set frequency to 1 kHz */
-    if (pwm_set_frequency(statusLed, 10) < 0) {
-        fprintf(stderr, "pwm_set_frequency(): %s\n", pwm_errmsg(statusLed));
-        exit(1);
-    }
-
-    /* Change duty cycle to 50% */
-    if (pwm_set_duty_cycle(statusLed, 0.50) < 0) {
-        fprintf(stderr, "pwm_set_duty_cycle(): %s\n", pwm_errmsg(statusLed));
-        exit(1);
-    }
-
-    if (pwm_enable(statusLed) < 0) {
-        fprintf(stderr, "pwm_enable(): %s\n", pwm_errmsg(statusLed));
-        exit(1);
-    }
 
     if (!setupVibrationSensorModules(externalTriggerActivated)) {
         return EXIT_FAILURE;
@@ -112,6 +99,11 @@ int main(int argc, char *argv[]) {
         recordingsCount = 1;
     }
 
+    if (statusLedActivated && gpio_write(statusLed, true) < 0) {
+        fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+        exit(1);
+    }
+
     // run indefinitely if recordingsCount == 0
     for (int i = 0; i < recordingsCount || recordingsCount == 0; ++i) {
         system_clock::time_point triggerTime = triggerVibrationSensors(externalTriggerActivated);
@@ -119,25 +111,43 @@ int main(int argc, char *argv[]) {
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             auto vibrationData = vibrationSensorModule.retrieveVibrationData();
 
+            if (statusLedActivated && gpio_write(statusLed, false) < 0) {
+                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+                exit(1);
+            }
+
             bool storedVibrationData = storageModule.storeVibrationData(vibrationData, vibrationSensorModule.getName(),
                                                                         triggerTime);
+
+            if (statusLedActivated && gpio_write(statusLed, true) < 0) {
+                fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+                exit(1);
+            }
+
             LOG_IF_F(ERROR, !storedVibrationData, "Could not store vibration data.");
         }
+
+
     }
 
     for (auto &vibrationSensorModule : vibrationSensorModules) {
         vibrationSensorModule.close();
     }
 
-    if (pwm_disable(statusLed) < 0) {
-        fprintf(stderr, "pwm_enable(): %s\n", pwm_errmsg(statusLed));
-        exit(1);
+    if (externalTriggerActivated) {
+        gpio_close(gpioTrigger);
+        gpio_free(gpioTrigger);
     }
 
-    // TODO: close trigger pin
+    if (statusLedActivated) {
+        if (gpio_write(statusLed, false) < 0) {
+            fprintf(stderr, "gpio_write(): %s", gpio_errmsg(statusLed));
+            exit(1);
+        }
 
-    pwm_close(statusLed);
-    pwm_free(statusLed);
+        gpio_close(statusLed);
+        gpio_free(statusLed);
+    }
 
     return EXIT_SUCCESS;
 }

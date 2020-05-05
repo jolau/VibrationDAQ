@@ -27,5 +27,7 @@ namespace vibration_daq {
         bool readRecordingsCount(int &recordingsCount);
         bool readStorageDirectory(std::string &storageDirectory) const;
         bool readExternalTrigger(bool &externalTriggerActivated, int &externalTriggerPin) const;
+
+        bool readStatusLed(bool &statusLedActivated, int &statusLedPin) const;
     };
 }

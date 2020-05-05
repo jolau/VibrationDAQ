@@ -192,4 +192,20 @@ namespace vibration_daq {
 
         return true;
     }
+
+    bool ConfigModule::readStatusLed(bool &statusLedActivated, int &statusLedPin) const {
+        if (!convertNode(configNode["status_led"], statusLedActivated)) {
+            LOG_S(WARNING) << "could not read status_led from config";
+            return false;
+        }
+
+        if (statusLedActivated) {
+            if (!convertNode(configNode["status_led_pin"], statusLedPin)) {
+                LOG_S(WARNING) << "could not read status_led_pin from config";
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
