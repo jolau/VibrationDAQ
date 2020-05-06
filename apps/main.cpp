@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     }
     if (statusLedActivated) {
         gpioStatusLed = gpio_new();
-        if (gpio_open(gpioStatusLed, "/dev/gpiochip0", 18, GPIO_DIR_OUT_LOW) < 0) {
+        if (gpio_open(gpioStatusLed, "/dev/gpiochip0", statusLedPin, GPIO_DIR_OUT_LOW) < 0) {
             LOG_F(ERROR, "gpio_open(): %s", gpio_errmsg(gpioStatusLed));
             return EXIT_FAILURE;
         }
