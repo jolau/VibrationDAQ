@@ -13,7 +13,7 @@ You can use it now with `vibration_daq_app [full path to config.yaml]`.
 
 ### Enable/Disable Autostart
 1. Edit config.yaml path in vibration_daq.service file to own needs 
-2. `sudo systemctl enable vibration_daq.service`    
+2. `sudo systemctl enable [full path to vibration_daq.service file]`    
     This automatically links the service and enables it.
 
 ## Dependencies
