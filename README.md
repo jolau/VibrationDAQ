@@ -37,6 +37,8 @@ recordings_count: 2 #number of recurring measurements, infinite if == 0
 external_trigger: false # false: triggering over SPI; 
                         # true: triggering over dedicated pin, useful for triggering multiple sensor at exact same time (connect them to same pin)
 external_trigger_pin: 4 # only read if external_trigger == true
+status_led: true # enable/disable status led, blinks everytime a vibration file is written
+status_led_pin: 18  # only read if status_led == true
 sensors:
   - name: sensor1 #will be used for logging and filenames
     busy_pin: 22 #BCM pin number
@@ -54,8 +56,8 @@ sensors:
         fir_filter: CUSTOM
         custom_filter_taps: [6, 21, 53, 107, 193, 316, 480, 686, 930, 1203, 1490, 1774, 2034, 2251, 2407, 2489, 2489, 2407, 2251, 2034, 1774, 1490, 1203, 930, 686, 480, 316, 193, 107, 53, 21, 6]
   - name: sensor2
-    busy_pin: 23
-    reset_pin: 26
+    busy_pin: 24
+    reset_pin: 23
     spi_path: "/dev/spidev0.1"
     recording_mode: MFFT
     MFFT_config: *mfftConfig #copy config from sensor1 above
