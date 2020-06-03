@@ -3,7 +3,7 @@ recordings_count: 4
 external_trigger: true
 external_trigger_pin: 25
 status_led: true
-status_led_pin: 18
+status_led_pin: 21
 sensors:
   - name: sensor1
     busy_pin: 22

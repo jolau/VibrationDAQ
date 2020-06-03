@@ -38,7 +38,7 @@ external_trigger: false # false: triggering over SPI;
                         # true: triggering over dedicated pin, useful for triggering multiple sensor at exact same time (connect them to same pin)
 external_trigger_pin: 4 # only read if external_trigger == true
 status_led: true # enable/disable status led, blinks everytime a vibration file is written
-status_led_pin: 18  # only read if status_led == true
+status_led_pin: 21  # only read if status_led == true
 sensors:
   - name: sensor1 #will be used for logging and filenames
     busy_pin: 22 #BCM pin number
