@@ -1,5 +1,5 @@
 storage_directory: "/home/pi/Documents/"
-recordings_count: 4
+recordings_count: 2
 external_trigger: true
 external_trigger_pin: 25
 status_led: true

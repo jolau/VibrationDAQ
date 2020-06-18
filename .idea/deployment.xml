@@ -2,16 +2,6 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="RPiZeroHegi (3c0ec0a0-390f-4753-9bdf-b47d76785097)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-rpizerohegi" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
       <paths name="Raspberry Pi Zero (b6750e65-ad2c-488a-b3b6-e9ce6e187c30)">
         <serverdata>
           <mappings>
@@ -61,6 +51,16 @@
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypi4@hegi" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspberrypizero@hegi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="RaspiZeroWingtra (3dd40679-3cae-46a3-bb22-d426799a363c)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/Projects/VibrationDAQ" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-raspizerowingtra" />
           </excludedPaths>
         </serverdata>
       </paths>

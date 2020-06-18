@@ -30,6 +30,18 @@ https://github.com/jbeder/yaml-cpp
 ## Config file
 short primer on syntax of yaml: https://learnxinyminutes.com/docs/yaml/
 
+### Decimation Filter
+| **decimation_factor** | **Effective Sample Rate, fS (SPS)** | **Effective FFT Bin Size, f_MIN (Hz)** | **Effective Maximum FFT Frequency, f_MAX (Hz)** |
+|-------------------|---------------------------------|------------------------------------|---------------------------------------------|
+| FACTOR_1          | 220000                          | 53.71094                           | 110000                                      |
+| FACTOR_2          | 110000                          | 26.85547                           | 55000                                       |
+| FACTOR_4          | 55000                           | 13.42773                           | 27500                                       |
+| FACTOR_8          | 27500                           | 6.713867                           | 13750                                       |
+| FACTOR_16         | 13750                           | 3.356934                           | 6875                                        |
+| FACTOR_32         | 6875                            | 1.678467                           | 3437.5                                      |
+| FACTOR_64         | 3437.5                          | 0.839233                           | 1718.75                                     |
+| FACTOR_128        | 1718.75                         | 0.419617                           | 859.375                                     |
+
 ### Example config with explanation
 ```yaml
 storage_directory: "/home/pi/Documents/"
