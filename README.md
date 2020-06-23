@@ -1,18 +1,27 @@
 # VibrationDAQ
 Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor
 
+TODO picture of VibrationDAQ
+
 ## Hardware
 - Raspberry Pi is powered over the PPK port of the MCU.
 - Analog Devices ADcmXL3021 vibration sensor capabilities
     - [Corrected data sheet](docs/ADcmXL3021_corrected.pdf)
+    - Sensor orientation:\
+    ![Sensor Orientation](docs/sensor_orientation.png)
     - Mass: 13 g
     - ±50 g measurement range
-    - MFFT mode: Spectral analysis through internal FFT
+    - MFFT mode: Spectral analysis through internal FFT\
+    ![MFFT datapath](docs/MFFT_datapath.png)
         - 2048 bins per axis with user configurable bin sizes from 0.42 Hz to 53.7 Hz
         - Windowing options: rectangular, Hanning, flat top
-    - MTC mode: Time domain capture
+    - MTC mode: Time domain capture\
+    ![MTC datapath](docs/MTC_datapath.png)
         - 4096 samples per axis
-- [Features status LED](#status-led)
+- [Features a status LED](#status-led)
+
+### Pinout Raspberry Pi
+TODO
 
 ## Installation
 1. Install yaml-cpp (as described below)
@@ -65,7 +74,7 @@ Of course, the decimation factor also affects the predefined FIR filters i.e. wi
 | FACTOR_128        | 1718.75                         | 0.419617                           | 859.375                                     |
 
 ### Spectral average count
-The `spectral_avg_count determines determine the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
+The `spectral_avg_count` determines determine the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
 
 ### Example config with explanation
 ```yaml
