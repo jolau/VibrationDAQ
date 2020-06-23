@@ -1,6 +1,19 @@
 # VibrationDAQ
 Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor
 
+## Hardware
+- Raspberry Pi is powered over the PPK port of the MCU.
+- Analog Devices ADcmXL3021 vibration sensor capabilities
+    - [Corrected data sheet](docs/ADcmXL3021_corrected.pdf)
+    - Mass: 13 g
+    - ±50 g measurement range
+    - MFFT mode: Spectral analysis through internal FFT
+        - 2048 bins per axis with user configurable bin sizes from 0.42 Hz to 53.7 Hz
+        - Windowing options: rectangular, Hanning, flat top
+    - MTC mode: Time domain capture
+        - 4096 samples per axis
+- [Features status LED](#status-led)
+
 ## Installation
 1. Install yaml-cpp (as described below)
 2. Clone this repo.
@@ -27,10 +40,19 @@ https://github.com/jbeder/yaml-cpp
 6. `cmake .. -DYAML_BUILD_SHARED_LIBS=ON`
 7. `sudo make install`
 
+## Usage
+### Status led
+If the status led is enabled in config, it will glow when running:
+- Constant glow: data acquisition is running normally
+- Blink: measurement completed, saving data to a new csv file
+
 ## Config file
-short primer on syntax of yaml: https://learnxinyminutes.com/docs/yaml/
+Short primer on the syntax of yaml: https://learnxinyminutes.com/docs/yaml/
 
 ### Decimation Filter
+Setting the right `decimation_factor` is crucial for getting meaningful data. Choose it according to the maximum vibration frequency you're expecting.
+Of course, the decimation factor also affects the predefined FIR filters i.e. with a FACTOR_64, the LOW_PASS_10kHz is actually a 156 Hz low pass filter.  
+ 
 | **decimation_factor** | **Effective Sample Rate, fS (SPS)** | **Effective FFT Bin Size, f_MIN (Hz)** | **Effective Maximum FFT Frequency, f_MAX (Hz)** |
 |-------------------|---------------------------------|------------------------------------|---------------------------------------------|
 | FACTOR_1          | 220000                          | 53.71094                           | 110000                                      |
@@ -41,6 +63,9 @@ short primer on syntax of yaml: https://learnxinyminutes.com/docs/yaml/
 | FACTOR_32         | 6875                            | 1.678467                           | 3437.5                                      |
 | FACTOR_64         | 3437.5                          | 0.839233                           | 1718.75                                     |
 | FACTOR_128        | 1718.75                         | 0.419617                           | 859.375                                     |
+
+### Spectral average count
+The `spectral_avg_count determines determine the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
 
 ### Example config with explanation
 ```yaml
