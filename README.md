@@ -33,14 +33,16 @@ TODO
 
 You can use it now with `vibration_daq_app [full path to config.yaml]`.
 
-### Enable/Disable Autostart
+### Enable/Disable auto-start
 1. Edit config.yaml path in vibration_daq.service file to own needs 
 2. `sudo systemctl enable [full path to vibration_daq.service file]`    
     This automatically links the service and enables it. Replace `enable` with `disable` to disable service.
 
 ## Dependencies
-### yaml-cpp (Installation)
+### yaml-cpp
 https://github.com/jbeder/yaml-cpp
+
+#### Installation
 1. `wget https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-0.6.3.tar.gz`
 2. `tar -xvf yaml-cpp-0.6.3.tar.gz`
 3. `cd yaml-cpp-yaml-cpp-0.6.3/`
@@ -50,6 +52,17 @@ https://github.com/jbeder/yaml-cpp
 7. `sudo make install`
 
 ## Usage
+### Workflow
+1. Connect to the Raspberry Pi and adapt the `~Documents/config.yaml` to your requirements. Make sure that auto-start is enabled.
+2. Mount the vibration sensor with the provided double sided tape [TODO](). This shouldn't distort the vibration to much.
+3. Do your flight.
+4. Download the collected data over SFTP. I recommend to also download the used config file.
+5. Identify the UTC timestamp when the interesting stuff happened (usually done with WingtraExplorer)
+6. Open the corresponding vibration CSV file in Google Sheets. 
+    - For FFT measurement: 
+        - Hide the first two data points as these have usually very high magnitude and don't give meaningful information
+        - Plot the data using a column chart. Example: [Vibration measurement of hovering](https://docs.google.com/spreadsheets/d/14JSqheOBy3_jz8b8ZHsbf1Y1i3Q_0ggUan1x36afFEI/edit?usp=sharing) 
+
 ### Status led
 If the status led is enabled in config, it will glow when running:
 - Constant glow: data acquisition is running normally
@@ -75,6 +88,16 @@ Of course, the decimation factor also affects the predefined FIR filters i.e. wi
 
 ### Spectral average count
 The `spectral_avg_count` determines determine the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
+
+### Calculate measurement duration
+#### FFT
+4096 samples / (220'000 sample rate / `decimation_factor`) * `spectral_avg_count` = record time [s]
+
+##### Example with FACTOR_64 and 255 spectral averages:
+4096 samples / (220000 sample rate / 64) * 255 = 303.84 seconds = 5.06 minutes
+
+#### MTC
+4096 samples / (220'000 sample rate / `decimation_factor`) = record time [s]
 
 ### Example config with explanation
 ```yaml
@@ -108,3 +131,11 @@ sensors:
     recording_mode: MFFT
     MFFT_config: *mfftConfig #copy config from sensor1 above
 ```
+
+## Example data
+As a proof-of-concept we did a test flight measuring the vibration of the MCU. The sensor was mounted with a double sided tape on an edge of MCU's shield. 
+- [Vibration measurement of hovering](https://docs.google.com/spreadsheets/d/14JSqheOBy3_jz8b8ZHsbf1Y1i3Q_0ggUan1x36afFEI/edit?usp=sharing) \
+   ![FFT hovering](docs/vibration_MCU_hover.png)
+- [Vibration measurement of cruise](https://docs.google.com/spreadsheets/d/18SIX4SNcnuEIht2rtMU6j_wppBdmgsPiNcv7j9PFBsw/edit?usp=sharing) \
+   ![FFT hovering](docs/vibration_MCU_cruise.png)
+- [Folder with all data of first flight](https://drive.google.com/drive/folders/1Ij0NExcixgqU5YGPX5JSEeCE_kMF_NHP?usp=sharing)
