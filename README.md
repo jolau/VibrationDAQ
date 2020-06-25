@@ -21,7 +21,16 @@ TODO picture of VibrationDAQ
 - [Features a status LED](#status-led)
 
 ### Pinout Raspberry Pi
-TODO
+![pinout rpi](docs/rpi_pinout.png)
+|       | pin | pin |       |
+|-------|-----|-----|-------|
+| RST 1 | 13  |     |       |
+| BSY 1 | 15  | 16  | RST 2 |
+| 3V3   | 17  | 18  | BSY 2 |
+| MOSI  | 19  | 20  | EMPTY |
+| MISO  | 21  | 22  | SYNC  |
+| SCLK  | 23  | 24  | CE 1  |
+| GND   | 25  | 26  | CE 2  |
 
 ## Installation
 1. Install yaml-cpp (as described below)
@@ -54,8 +63,8 @@ https://github.com/jbeder/yaml-cpp
 ## Usage
 ### Workflow
 1. Connect to the Raspberry Pi and adapt the `~Documents/config.yaml` to your requirements. Make sure that auto-start is enabled.
-2. Mount the vibration sensor with the provided double sided tape [TODO](). This shouldn't distort the vibration to much.
-3. Do your flight.
+2. Mount the vibration sensor with the provided double sided tape [3M™ Adhesive Transfer Tape 950](https://www.digikey.ch/product-detail/en/3m-tc/3-4-5-950/3M9743-ND/2649288). This shouldn't distort the vibration too much.
+3. Do your flight
 4. Download the collected data over SFTP. I recommend to also download the used config file.
 5. Identify the UTC timestamp when the interesting stuff happened (usually done with WingtraExplorer)
 6. Open the corresponding vibration CSV file in Google Sheets. 
