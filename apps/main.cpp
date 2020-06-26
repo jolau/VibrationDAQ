@@ -13,7 +13,6 @@
 #include "thread"
 #include "yaml-cpp/yaml.h"
 #include "date/date.h"
-#include "pwm.h"
 
 using namespace vibration_daq;
 using std::cout;
@@ -161,6 +160,7 @@ system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
         }
 
         triggerTime = system_clock::now();
+        LOG_S(INFO) << "Triggered over PIN.";
         sleep_for(5ms);
 
         if (gpio_write(gpioTrigger, false) < 0) {
@@ -170,7 +170,7 @@ system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
     } else {
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             // start recording
-            cout << "triggered" << endl;
+            LOG_S(INFO) << vibrationSensorModule.getName() << " triggered over SPI.";
             vibrationSensorModule.triggerRecording();
         }
         triggerTime = system_clock::now();

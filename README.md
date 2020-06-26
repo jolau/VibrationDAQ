@@ -1,5 +1,6 @@
 # VibrationDAQ
-Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor
+Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor \
+_Author: Jonas Lauener_
 
 TODO picture of VibrationDAQ
 
