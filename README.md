@@ -2,7 +2,7 @@
 Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor \
 _Author: Jonas Lauener_
 
-TODO picture of VibrationDAQ
+![VibrationDAQ](docs/vibrationdaq.jpg)
 
 ## Hardware
 - Raspberry Pi is powered over the PPK port of the MCU.
