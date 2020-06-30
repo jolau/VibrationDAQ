@@ -97,7 +97,7 @@ Of course, the decimation factor also affects the predefined FIR filters i.e. wi
 | FACTOR_128        | 1718.75                         | 0.419617                           | 859.375                                     |
 
 ### Spectral average count
-The `spectral_avg_count` determines determine the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
+The `spectral_avg_count` determines the number of FFT records that the ADcmXL3021 averages when generating the final FFT result. Up to 255 records. Good for getting FFT measurements over longer time periods.
 
 ### Calculate measurement duration
 #### FFT
