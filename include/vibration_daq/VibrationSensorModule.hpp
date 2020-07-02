@@ -18,6 +18,10 @@
 #include "entities/WindowSetting.hpp"
 
 namespace vibration_daq {
+
+    /**
+     * The VibrationSensorModule handles the whole communication of one sensor over SPI.
+     */
     class VibrationSensorModule {
     private:
         const std::string GPIO_PATH = "/dev/gpiochip0";
@@ -30,12 +34,23 @@ namespace vibration_daq {
 
         static std::vector<float> generateSteps(float stepSize, int samplesCount);
 
+        /**
+         * Send 16bit-word over SPI and read response to the sent word.
+         * @param sendBuf 16bit-word
+         * @return response word
+         */
         WordBuffer transfer(WordBuffer sendBuf) const;
-        WordBuffer transferWaiting(WordBuffer sendBuf) const;
+
+        /**
+         * Transfers only when sensor is _not_ bus.
+         * @param sendBuf 16bit-word
+         * @return response word
+         */
+        WordBuffer transferBlocking(WordBuffer sendBuf) const;
 
         uint16_t read(SpiCommand cmd) const;
-        std::vector<float> readBuffer(SpiCommand cmd, int samplesCount,
-                                      const std::function<float(int16_t)>& convertVibrationValue) const;
+        std::vector<float> readSamplesBuffer(SpiCommand cmd, int samplesCount,
+                                             const std::function<float(int16_t)>& convertVibrationValue) const;
         int readRecInfoFFTAveragesCount() const;
         int readRecInfoDecimationFactor() const;
 
@@ -46,17 +61,32 @@ namespace vibration_daq {
         bool activateMode(const RecordingConfig &recordingConfig, const RecordingMode &recordingMode, const WindowSetting &windowSetting = WindowSetting::HANNING);
     public:
         explicit VibrationSensorModule(const std::string &name);
+        /**
+         * Setup SPI and GPIO for sensor.
+         * @param resetPin BCM pin number
+         * @param busyPin BCM pin number
+         * @param spiPath full linux path to SPI ex: "/dev/spidev0.0"
+         * @param speed in Hz
+         * @return true == successful setup, right model (ADcmXL3021) is connected and the connection works
+         */
         [[nodiscard]] bool setup(unsigned int resetPin, unsigned int busyPin, std::string spiPath, uint32_t speed);
         void close();
 
-        const std::string &getName() const;
+        const std::string &getSensorName() const;
 
         void activateExternalTrigger() const;
+        /**
+         * Triggers autonull of sensor and saves offset settings in flash.
+         */
         void triggerAutonull() const;
         void triggerRecording() const;
         void restoreFactorySettings();
 
+        /**
+         * Retrieve data from sensor, already converted in physical quantities.
+         */
         VibrationData retrieveVibrationData() const;
+
         bool activateMode(const MFFTConfig &mfftConfig);
         bool activateMode(const MTCConfig &mtcConfig);
     };

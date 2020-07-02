@@ -6,6 +6,7 @@ After=multi-user.target
 
 [Service]
 ExecStart=/usr/local/bin/vibration_daq_app /home/pi/Documents/config.yaml
+User=pi
 
 [Install]
 WantedBy=multi-user.target

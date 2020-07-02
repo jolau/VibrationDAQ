@@ -173,11 +173,11 @@ namespace vibration_daq {
         return convertNode(configNode["recordings_count"], recordingsCount);
     }
 
-    bool ConfigModule::readStorageDirectory(std::string &storageDirectory) const {
+    bool ConfigModule::readStorageDirectoryPath(std::string &storageDirectory) const {
         return convertNode(configNode["storage_directory"], storageDirectory);
     }
 
-    bool ConfigModule::readExternalTrigger(bool &externalTriggerActivated, int &externalTriggerPin) const {
+    bool ConfigModule::readExternalTriggerConfig(bool &externalTriggerActivated, int &externalTriggerPin) const {
         if (!convertNode(configNode["external_trigger"], externalTriggerActivated)) {
             LOG_S(WARNING) << "could not read external_trigger from config";
             return false;
@@ -193,7 +193,7 @@ namespace vibration_daq {
         return true;
     }
 
-    bool ConfigModule::readStatusLed(bool &statusLedActivated, int &statusLedPin) const {
+    bool ConfigModule::readStatusLedConfig(bool &statusLedActivated, int &statusLedPin) const {
         if (!convertNode(configNode["status_led"], statusLedActivated)) {
             LOG_S(WARNING) << "could not read status_led from config";
             return false;

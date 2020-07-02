@@ -15,8 +15,6 @@
 #include "date/date.h"
 
 using namespace vibration_daq;
-using std::cout;
-using std::endl;
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 
@@ -42,9 +40,10 @@ int main(int argc, char *argv[]) {
         configFilePath = argv[1];
     } else {
         LOG_S(ERROR) << "No config file as program argument specified!";
+        return EXIT_FAILURE;
     }
-    LOG_S(INFO) << "Loading from config file path: " << configFilePath;
 
+    LOG_S(INFO) << "Loading from config file path: " << configFilePath;
     if (!configModule.setup(configFilePath)) {
         LOG_S(ERROR) << "Could not setup ConfigModule.";
         return EXIT_FAILURE;
@@ -52,7 +51,7 @@ int main(int argc, char *argv[]) {
 
     bool externalTriggerActivated = false;
     int externalTriggerPin = -1;
-    if (!configModule.readExternalTrigger(externalTriggerActivated, externalTriggerPin)) {
+    if (!configModule.readExternalTriggerConfig(externalTriggerActivated, externalTriggerPin)) {
         LOG_S(ERROR) << "Could not retrieve externalTrigger config.";
         return EXIT_FAILURE;
     }
@@ -66,7 +65,7 @@ int main(int argc, char *argv[]) {
 
     bool statusLedActivated = false;
     int statusLedPin = -1;
-    if (!configModule.readStatusLed(statusLedActivated, statusLedPin)) {
+    if (!configModule.readStatusLedConfig(statusLedActivated, statusLedPin)) {
         LOG_S(ERROR) << "Could not retrieve externalTrigger config.";
         return EXIT_FAILURE;
     }
@@ -84,7 +83,7 @@ int main(int argc, char *argv[]) {
     }
 
     std::string storageDirectoryPath;
-    if (!configModule.readStorageDirectory(storageDirectoryPath)) {
+    if (!configModule.readStorageDirectoryPath(storageDirectoryPath)) {
         LOG_S(ERROR) << "Could not retrieve storage_directory from config.";
         return EXIT_FAILURE;
     }
@@ -115,7 +114,8 @@ int main(int argc, char *argv[]) {
                 exit(1);
             }
 
-            bool storedVibrationData = storageModule.storeVibrationData(vibrationData, vibrationSensorModule.getName(),
+            bool storedVibrationData = storageModule.storeVibrationData(vibrationData,
+                                                                        vibrationSensorModule.getSensorName(),
                                                                         triggerTime);
 
             if (statusLedActivated && gpio_write(gpioStatusLed, true) < 0) {
@@ -170,7 +170,7 @@ system_clock::time_point triggerVibrationSensors(const bool &externalTrigger) {
     } else {
         for (const auto &vibrationSensorModule : vibrationSensorModules) {
             // start recording
-            LOG_S(INFO) << vibrationSensorModule.getName() << " triggered over SPI.";
+            LOG_S(INFO) << vibrationSensorModule.getSensorName() << " triggered over SPI.";
             vibrationSensorModule.triggerRecording();
         }
         triggerTime = system_clock::now();
@@ -212,7 +212,7 @@ bool setupVibrationSensorModules(const bool &externalTriggerActivated) {
         }
 
         vibrationSensorModules.push_back(vibrationSensorModule);
-        LOG_S(INFO) << vibrationSensorModule.getName() << " setup done";
+        LOG_S(INFO) << vibrationSensorModule.getSensorName() << " setup done";
     }
 
     return true;

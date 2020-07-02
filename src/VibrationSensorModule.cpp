@@ -16,7 +16,7 @@ namespace vibration_daq {
 
     VibrationSensorModule::VibrationSensorModule(const std::string &name) : name(name) {}
 
-    const std::string &VibrationSensorModule::getName() const {
+    const std::string &VibrationSensorModule::getSensorName() const {
         return name;
     }
 
@@ -35,7 +35,7 @@ namespace vibration_daq {
         return recBuf;
     }
 
-    WordBuffer VibrationSensorModule::transferWaiting(WordBuffer sendBuf) const {
+    WordBuffer VibrationSensorModule::transferBlocking(WordBuffer sendBuf) const {
         bool notBusy;
 
         do {
@@ -63,10 +63,10 @@ namespace vibration_daq {
         }
 
         // select page
-        transferWaiting({0x80, cmd.pageId});
+        transferBlocking({0x80, cmd.pageId});
 
-        transferWaiting({cmd.address, 0});
-        WordBuffer resp = transferWaiting({0, 0});
+        transferBlocking({cmd.address, 0});
+        WordBuffer resp = transferBlocking({0, 0});
 
         return convert(resp);
     }
@@ -79,10 +79,10 @@ namespace vibration_daq {
         }
 
         // select page
-        transferWaiting({0x80, cmd.pageId});
+        transferBlocking({0x80, cmd.pageId});
 
-        transferWaiting({static_cast<unsigned char>(cmd.address | 0x80), static_cast<unsigned char>(value & 0xff)});
-        transferWaiting({static_cast<unsigned char>((cmd.address + 1) | 0x80), static_cast<unsigned char>(value >> 8)});
+        transferBlocking({static_cast<unsigned char>(cmd.address | 0x80), static_cast<unsigned char>(value & 0xff)});
+        transferBlocking({static_cast<unsigned char>((cmd.address + 1) | 0x80), static_cast<unsigned char>(value >> 8)});
     }
 
 
@@ -183,11 +183,6 @@ namespace vibration_daq {
                             return std::pow(2, static_cast<float>(valueRaw) / 2048) / numberOfFFTAvg * 0.9535;
                         }
                 };
-//                convertVibrationValue = {
-//                        [](int16_t valueRaw) {
-//                            return static_cast<float>(valueRaw);
-//                        }
-//                };
                 break;
         }
 
@@ -196,9 +191,9 @@ namespace vibration_daq {
         VibrationData vibrationData;
         vibrationData.recordingMode = currentRecordingMode;
         vibrationData.stepAxis = generateSteps(recordStepSize, samplesCount);
-        vibrationData.xAxis = readBuffer(spi_commands::X_BUF, samplesCount, convertVibrationValue);
-        vibrationData.yAxis = readBuffer(spi_commands::Y_BUF, samplesCount, convertVibrationValue);
-        vibrationData.zAxis = readBuffer(spi_commands::Z_BUF, samplesCount, convertVibrationValue);
+        vibrationData.xAxis = readSamplesBuffer(spi_commands::X_BUF, samplesCount, convertVibrationValue);
+        vibrationData.yAxis = readSamplesBuffer(spi_commands::Y_BUF, samplesCount, convertVibrationValue);
+        vibrationData.zAxis = readSamplesBuffer(spi_commands::Z_BUF, samplesCount, convertVibrationValue);
 
         return vibrationData;
     }
@@ -214,21 +209,21 @@ namespace vibration_daq {
         return stepAxis;
     }
 
-    std::vector<float> VibrationSensorModule::readBuffer(SpiCommand cmd, int samplesCount,
-                                                         const std::function<float(int16_t)> &convertVibrationValue) const {
+    std::vector<float> VibrationSensorModule::readSamplesBuffer(SpiCommand cmd, int samplesCount,
+                                                                const std::function<float(int16_t)> &convertVibrationValue) const {
         std::vector<float> axisData;
         axisData.reserve(samplesCount);
 
         // select page
-        transferWaiting({0x80, cmd.pageId});
-        transferWaiting({cmd.address, 0});
+        transferBlocking({0x80, cmd.pageId});
+        transferBlocking({cmd.address, 0});
 
         for (int i = 0; i < (samplesCount - 1); ++i) {
-            uint16_t resp = convert(transferWaiting({cmd.address, 0}));
+            uint16_t resp = convert(transferBlocking({cmd.address, 0}));
             auto valueRaw = static_cast<int16_t>(resp);
             axisData.push_back(convertVibrationValue(valueRaw));
         }
-        int16_t valueRaw = static_cast<int16_t>(convert(transferWaiting({0, 0})));
+        int16_t valueRaw = static_cast<int16_t>(convert(transferBlocking({0, 0})));
         axisData.push_back(convertVibrationValue(valueRaw));
         return axisData;
     }

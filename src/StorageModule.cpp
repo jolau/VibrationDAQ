@@ -16,7 +16,7 @@ namespace vibration_daq {
     }
 
     std::string
-    StorageModule::getTimestampString(const std::chrono::system_clock::time_point &timePoint) {
+    StorageModule::getUTCTimestampString(const std::chrono::system_clock::time_point &timePoint) {
         return date::format("%FT%H_%M_%S", date::floor<std::chrono::milliseconds>(timePoint));
     }
 
@@ -37,7 +37,7 @@ namespace vibration_daq {
         dataFilePath << "vibration_data_";
         dataFilePath << Enum::toString(vibrationData.recordingMode);
         dataFilePath << "_";
-        dataFilePath << getTimestampString(measurementTimestamp);
+        dataFilePath << getUTCTimestampString(measurementTimestamp);
         dataFilePath << "_";
         dataFilePath << sensorName;
         dataFilePath << ".csv";

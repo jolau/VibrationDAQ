@@ -7,6 +7,9 @@
 #include <iostream>
 
 namespace vibration_daq {
+    /**
+     * 2-byte buffer
+     */
     typedef std::array<uint8_t, 2> WordBuffer;
 
     inline static uint16_t convert(const WordBuffer &wordBuffer)  {
