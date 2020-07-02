@@ -63,7 +63,7 @@ https://github.com/jbeder/yaml-cpp
 
 ## Usage
 ### Workflow
-1. Connect to the Raspberry Pi and adapt the `~Documents/config.yaml` to your requirements. Make sure that auto-start is enabled.
+1. Connect to the Raspberry Pi and adapt the `~/Documents/config.yaml` to your requirements. Make sure that auto-start is enabled.
 2. Mount the vibration sensor with the provided double sided tape [3M™ Adhesive Transfer Tape 950](https://www.digikey.ch/product-detail/en/3m-tc/3-4-5-950/3M9743-ND/2649288). This shouldn't distort the vibration too much.
 3. Do your flight
 4. Download the collected data over SFTP. I recommend to also download the used config file.
