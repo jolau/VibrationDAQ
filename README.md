@@ -1,5 +1,5 @@
 # VibrationDAQ
-Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor \
+Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor. \
 _Author: Jonas Lauener_
 
 ![VibrationDAQ](docs/vibrationdaq.jpg)
@@ -11,6 +11,7 @@ _Author: Jonas Lauener_
     - Sensor orientation:\
     ![Sensor Orientation](docs/sensor_orientation.png)
     - Mass: 13 g
+    - Frequencies up to 110 kHz
     - ±50 g measurement range
     - MFFT mode: Spectral analysis through internal FFT\
     ![MFFT datapath](docs/MFFT_datapath.png)
@@ -34,6 +35,7 @@ _Author: Jonas Lauener_
 | GND   | 25  | 26  | CE 2  |
 
 ## Installation
+_In case you want to setup your own VibrationDAQ on a Raspberry Pi:_
 1. Install yaml-cpp (as described below)
 2. Clone this repo.
 3. `cd VibrationDAQ`
