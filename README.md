@@ -1,6 +1,8 @@
 # VibrationDAQ
-Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor. \
-_Author: Jonas Lauener_
+Data Acquisition (DAQ) of the Analog Devices ADcmXL3021 vibration sensor. The VibrationDAQ was developed as part of an internship at [Wingtra](https://wingtra.com/) by [Jonas Lauener](https://www.jolau.ch/).  
+
+Copyright (c) 2020, Jonas Lauener & Wingtra AG\
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
 ![VibrationDAQ](docs/vibrationdaq.jpg)
 
@@ -24,6 +26,7 @@ _Author: Jonas Lauener_
 
 ### Pinout Raspberry Pi
 ![pinout rpi](docs/rpi_pinout.png)
+
 |       | pin | pin |       |
 |-------|-----|-----|-------|
 | RST 1 | 13  |     |       |
@@ -33,6 +36,10 @@ _Author: Jonas Lauener_
 | MISO  | 21  | 22  | SYNC  |
 | SCLK  | 23  | 24  | CE 1  |
 | GND   | 25  | 26  | CE 2  |
+
+### Custom adapter board
+The pins of the ADcmXL3021 vibration sensor can be accessed by using a custom adapter board. The PCB was created by using the software KiCad: [KiCad project](ADcmXL3021_adapter/ADcmXL3021_adapter.pro)\
+![adapter board](docs/adapter_board.jpg)
 
 ## Installation
 _In case you want to setup your own VibrationDAQ on a Raspberry Pi:_
@@ -45,16 +52,7 @@ _In case you want to setup your own VibrationDAQ on a Raspberry Pi:_
 
 You can use it now with `vibration_daq_app [full path to config.yaml]`.
 
-### Enable/Disable auto-start
-1. Edit config.yaml path in vibration_daq.service file to own needs 
-2. `sudo systemctl enable [full path to vibration_daq.service file]`    
-    This automatically links the service and enables it. Replace `enable` with `disable` to disable service.
-
-## Dependencies
-### yaml-cpp
-https://github.com/jbeder/yaml-cpp
-
-#### Installation
+#### Installation of yaml-cpp
 1. `wget https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-0.6.3.tar.gz`
 2. `tar -xvf yaml-cpp-0.6.3.tar.gz`
 3. `cd yaml-cpp-yaml-cpp-0.6.3/`
@@ -62,6 +60,18 @@ https://github.com/jbeder/yaml-cpp
 5. `cd build`
 6. `cmake .. -DYAML_BUILD_SHARED_LIBS=ON`
 7. `sudo make install`
+
+### Enable/Disable auto-start
+1. Edit config.yaml path in vibration_daq.service file to own needs 
+2. `sudo systemctl enable [full path to vibration_daq.service file]`    
+    This automatically links the service and enables it. Replace `enable` with `disable` to disable service.
+
+## Dependencies
+Many thanks to the authors of the following libraries:
+- [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+- [loguru](https://github.com/emilk/loguru)
+- [c-periphery](https://github.com/vsergeev/c-periphery)
+- [date](https://github.com/HowardHinnant/date)
 
 ## Usage
 ### Workflow
@@ -145,9 +155,10 @@ sensors:
 ```
 
 ## Example data
-As a proof-of-concept we did a test flight measuring the vibration of the MCU. The sensor was mounted with a double sided tape on an edge of MCU's shield. 
-- [Vibration measurement of hovering](https://docs.google.com/spreadsheets/d/14JSqheOBy3_jz8b8ZHsbf1Y1i3Q_0ggUan1x36afFEI/edit?usp=sharing) \
-   ![FFT hovering](docs/vibration_MCU_hover.png)
-- [Vibration measurement of cruise](https://docs.google.com/spreadsheets/d/18SIX4SNcnuEIht2rtMU6j_wppBdmgsPiNcv7j9PFBsw/edit?usp=sharing) \
-   ![FFT hovering](docs/vibration_MCU_cruise.png)
-- [Folder with all data of first flight](https://drive.google.com/drive/folders/1Ij0NExcixgqU5YGPX5JSEeCE_kMF_NHP?usp=sharing)
+The following data was collected on a self-made vibration bench. The bench consists of an unbalanced mass attached to an electrical motor. 
+### MFFT mode
+![MFFT plot](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.png)
+[MFFT raw data](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.csv)
+
+### MTC
+[MTC raw data](docs/vibration_data_MTC_2020-06-25T07_34_45.609_sensor1.csv)

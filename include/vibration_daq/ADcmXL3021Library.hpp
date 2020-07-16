@@ -1,6 +1,7 @@
-//
-// Created by Jonas Lauener on 04.03.20.
-//
+/* Copyright (c) 2020, Jonas Lauener & Wingtra AG
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 #pragma once
 
@@ -14,7 +15,7 @@ namespace vibration_daq {
         bool writeFlag;
     };
 
-    // generated with https://docs.google.com/spreadsheets/d/1Mb0L5uJfrP49SAjBWerlkgQbLD7uuCMY-8qP3WlNRI0/edit?usp=sharing
+    // generated with docs/ADcmXL3021_memory_map.ods
     namespace spi_commands {
         const SpiCommand PAGE_ID = {0x00, 0x00, true, false};
         const SpiCommand TEMP_OUT = {0x00, 0x02, true, false};
