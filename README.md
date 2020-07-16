@@ -7,7 +7,7 @@ Copyright (c) 2020, Jonas Lauener & Wingtra AG\
 ![VibrationDAQ](docs/vibrationdaq.jpg)
 
 ## Hardware
-- Raspberry Pi is powered over the PPK port of the MCU.
+- Raspberry Pi 
 - Analog Devices ADcmXL3021 vibration sensor capabilities
     - [Corrected data sheet](docs/ADcmXL3021_corrected.pdf)
     - Sensor orientation:\
@@ -76,14 +76,13 @@ Many thanks to the authors of the following libraries:
 ## Usage
 ### Workflow
 1. Connect to the Raspberry Pi and adapt the `~/Documents/config.yaml` to your requirements. Make sure that auto-start is enabled.
-2. Mount the vibration sensor with the provided double sided tape [3M™ Adhesive Transfer Tape 950](https://www.digikey.ch/product-detail/en/3m-tc/3-4-5-950/3M9743-ND/2649288). This shouldn't distort the vibration too much.
-3. Do your flight
+2. Mount the vibration sensor with the double sided tape [3M™ Adhesive Transfer Tape 950](https://www.digikey.ch/product-detail/en/3m-tc/3-4-5-950/3M9743-ND/2649288). This shouldn't distort the vibration too much.
+3. Do your measurement.
 4. Download the collected data over SFTP. I recommend to also download the used config file.
-5. Identify the UTC timestamp when the interesting stuff happened (usually done with WingtraExplorer)
-6. Open the corresponding vibration CSV file in Google Sheets. 
+6. Open a vibration CSV file in Google Sheets. 
     - For FFT measurement: 
         - Hide the first two data points as these have usually very high magnitude and don't give meaningful information
-        - Plot the data using a column chart. Example: [Vibration measurement of hovering](https://docs.google.com/spreadsheets/d/14JSqheOBy3_jz8b8ZHsbf1Y1i3Q_0ggUan1x36afFEI/edit?usp=sharing) 
+        - Plot the data using a column chart.  
 
 ### Status led
 If the status led is enabled in config, it will glow when running:
@@ -156,9 +155,7 @@ sensors:
 
 ## Example data
 The following data was collected on a self-made vibration bench. The bench consists of an unbalanced mass attached to an electrical motor. 
-### MFFT mode
-![MFFT plot](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.png)
-[MFFT raw data](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.csv)
-
-### MTC
-[MTC raw data](docs/vibration_data_MTC_2020-06-25T07_34_45.609_sensor1.csv)
+- [MFFT raw data example](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.csv)
+    - Plot of MFFT data:\
+       ![MFFT plot](docs/vibration_data_MFFT_2020-06-17T16_08_57.423_sensor1.png)
+- [MTC raw data example](docs/vibration_data_MTC_2020-06-25T07_34_45.609_sensor1.csv)
