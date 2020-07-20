@@ -37,6 +37,8 @@ Copyright (c) 2020, Jonas Lauener & Wingtra AG\
 | SCLK  | 23  | 24  | CE 1  |
 | GND   | 25  | 26  | CE 2  |
 
+The vibration sensor only works on the main SPI pins (SPI0) of the Raspberry Pi - the other SPI ports don't support SPI mode 3.
+
 ### Custom adapter board
 The pins of the ADcmXL3021 vibration sensor can be accessed by using a custom adapter board. The PCB was created by using the software KiCad: [KiCad project](ADcmXL3021_adapter/ADcmXL3021_adapter.pro)\
 ![adapter board](docs/adapter_board.jpg)
@@ -49,6 +51,8 @@ _In case you want to setup your own VibrationDAQ on a Raspberry Pi:_
 4. `mkdir build & cd build`
 5. `cmake ..`
 6. `sudo make install`
+
+Make sure that you have [enabled SPI](https://www.raspberrypi-spy.co.uk/2014/08/enabling-the-spi-interface-on-the-raspberry-pi/).
 
 You can use it now with `vibration_daq_app [full path to config.yaml]`.
 
