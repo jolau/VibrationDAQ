@@ -40,7 +40,7 @@ Copyright (c) 2020, Jonas Lauener & Wingtra AG\
 The vibration sensor only works on the main SPI pins (SPI0) of the Raspberry Pi - the other SPI ports don't support SPI mode 3.
 
 ### Custom adapter board
-The pins of the ADcmXL3021 vibration sensor can be accessed by using a custom adapter board. The PCB was created by using the software KiCad: [KiCad project](ADcmXL3021_adapter/ADcmXL3021_adapter.pro)\
+The pins of the ADcmXL3021 vibration sensor can be accessed by using a custom adapter board. The PCB was created by using the software KiCad: [KiCad project files](ADcmXL3021_adapter/ADcmXL3021_adapter.pro)\
 ![adapter board](docs/adapter_board.jpg)
 
 ## Installation
