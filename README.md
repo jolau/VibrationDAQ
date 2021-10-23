@@ -1,6 +1,8 @@
 # VibrationDAQ
 Data Acquisition (DAQ) of the [Analog Devices ADcmXL3021](https://www.analog.com/en/products/adcmxl3021.html#product-overview) vibration sensor. The VibrationDAQ was developed as part of an internship at [Wingtra](https://wingtra.com/) by [Jonas Lauener](https://www.jolau.ch/).  
 
+**For any technical questions, please open an issue: https://github.com/jolau/VibrationDAQ/issues/new/choose**
+
 Copyright (c) 2020, Jonas Lauener & Wingtra AG\
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
